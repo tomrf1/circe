@@ -7,7 +7,8 @@ import io.circe.export.Exported
 import java.util.UUID
 import scala.annotation.tailrec
 import scala.collection.generic.CanBuildFrom
-import scala.collection.immutable.{ Map, Set }
+import scala.collection.immutable.Set
+import scala.collection.Map
 import scala.util.{ Failure, Success, Try }
 
 trait Decoder[A] extends Serializable { self =>
@@ -646,7 +647,7 @@ final object Decoder extends TupleDecoders with ProductDecoders with LowPriority
   /**
    * @group Decoding
    */
-  implicit final def decodeMapLike[M[K, +V] <: Map[K, V], K, V](implicit
+  implicit final def decodeMapLike[M[K, V] <: Map[K, V], K, V](implicit
     dk: KeyDecoder[K],
     dv: Decoder[V],
     cbf: CanBuildFrom[Nothing, (K, V), M[K, V]]

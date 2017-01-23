@@ -2,9 +2,9 @@ package io.circe
 
 import cats.data.{ NonEmptyList, Validated }
 import scala.collection.generic.CanBuildFrom
-import scala.collection.immutable.Map
+import scala.collection.Map
 
-private[circe] final class MapDecoder[M[K, +V] <: Map[K, V], K, V](implicit
+private[circe] final class MapDecoder[M[K, V] <: Map[K, V], K, V](implicit
   dk: KeyDecoder[K],
   dv: Decoder[V],
   cbf: CanBuildFrom[Nothing, (K, V), M[K, V]]

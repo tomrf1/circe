@@ -7,7 +7,8 @@ import io.circe.export.Exported
 import java.util.UUID
 import scala.collection.GenSeq
 import scala.collection.generic.IsTraversableOnce
-import scala.collection.immutable.{ Map, Set }
+import scala.collection.immutable.Set
+import scala.collection.Map
 import scala.Predef._
 
 /**
@@ -277,12 +278,12 @@ object Encoder extends TupleEncoders with ProductEncoders with MidPriorityEncode
   /**
    * @group Encoding
    */
-  implicit final def encodeMapLike[M[K, +V] <: Map[K, V], K, V](implicit
+  implicit final def encodeMapLike[M[K, V] <: Map[K, V], K, V](implicit
     ek: KeyEncoder[K],
     ev: Encoder[V]
   ): ObjectEncoder[M[K, V]] = new ObjectEncoder[M[K, V]] {
     final def encodeObject(a: M[K, V]): JsonObject = JsonObject.fromMap(
-      a.map {
+      a.toMap.map {
         case (k, v) => (ek(k), ev(v))
       }
     )
